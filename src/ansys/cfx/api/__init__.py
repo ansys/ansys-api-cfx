@@ -1,6 +1,4 @@
-"""
-Provides a Python wrapper for the Ansys CFX API.
-"""
+"""Provides a Python wrapper for the Ansys CFX API."""
 
 try:
     import importlib.metadata as importlib_metadata

@@ -89,3 +89,9 @@ source_suffix = ".rst"
 
 # The master toctree document.
 master_doc = "index"
+
+# Ignore links that do not exist yet (to be revisited).
+linkcheck_ignore = [
+    "https://github.com/ansys-internal/ansys-api-cfx/*",
+    "https://pypi.org/project/ansys-cfx-api/*",
+]
