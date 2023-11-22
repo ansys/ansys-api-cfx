@@ -9,7 +9,7 @@ on:
 
 env:
   MAIN_PYTHON_VERSION: '3.11'
-  DOCUMENTATION_CNAME: 'https://ideal-meme-gq3rwym.pages.github.io/'
+  DOCUMENTATION_CNAME: 'https://redesigned-meme-377ylg9.pages.github.io/'
   LIBRARY_NAME: 'ansys-cfx-api'
 
 concurrency:
