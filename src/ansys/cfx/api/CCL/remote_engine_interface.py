@@ -1,0 +1,24 @@
+# Copyright (c) 2024 ANSYS, Inc. All rights reserved
+from abc import ABC, abstractmethod
+
+from .ccl_change_observer_interface import ICCLChangeObserver
+
+
+class IRemoteEngineInterface(ABC):
+    """A pure interface for a CUE python client backend."""
+
+    @abstractmethod
+    def get_rules(self) -> str:
+        ...
+
+    @abstractmethod
+    def get_state(self) -> str:
+        ...
+
+    @abstractmethod
+    def register_ccl_change_observer(self, observer: ICCLChangeObserver):
+        ...
+
+    @abstractmethod
+    def send_ccl(self, ccl: str) -> bool:
+        ...

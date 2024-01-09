@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 # Check https://flit.readthedocs.io/en/latest/pyproject_toml.html for all available sections
 name = "ansys-cfx-api"
-version = "0.1.dev0"
+dynamic = ["version"]
 description = "A Python wrapper for the Ansys CFX API."
 readme = "README.rst"
 requires-python = ">=3.9,<4"
