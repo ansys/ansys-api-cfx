@@ -18,26 +18,19 @@ from .CCL.remote_engine_interface import IRemoteEngineInterface
 
 
 class _CUEEngineInterface(IRemoteEngineInterface):
-    """
-    This class controls the launching, interactions and quitting of TurboGrid, CFX-Pre or CFD-Post.
-    """
+    """Controls the launching, interactions and quitting of TurboGrid, CFX-Pre or CFD-Post."""
 
     QUERY_ERROR_PREFIX = "ERROR:"  #: :meta private:
 
     class AppLocationType(IntEnum):
-        """
-        :meta private:
-        """
+        """:meta private:"""
 
         APP_INSTALL = 0
         APP_RUNNING_CONTAINER = 1
         APP_ANSYS_LABS = 2
 
     class ServerLogLevel(IntEnum):
-        """
-        :meta private:
-        :member-order: bysource
-        """
+        """:meta private: :member-order: bysource"""
 
         CRITICAL = 50
         ERROR = 40
@@ -48,9 +41,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         NOTSET = 0
 
     class DataDrivenUIStorage:
-        """
-        :meta private:
-        """
+        """:meta private:"""
 
         parentWR = None  #: :meta private:
 
@@ -66,9 +57,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
             msg_type,
             msg,
         ):
-            """
-            :meta private:
-            """
+            """:meta private:"""
             self.parentWR().queue_message(msg_type, msg)
 
         def queue_message_with_response(
@@ -76,21 +65,15 @@ class _CUEEngineInterface(IRemoteEngineInterface):
             msg_type,
             msg,
         ) -> str:
-            """
-            :meta private:
-            """
+            """:meta private:"""
             return self.parentWR().queue_message_with_response(msg_type, msg)
 
         def do_eval(self, result):
-            """
-            :meta private:
-            """
+            """:meta private:"""
             return self.parentWR().do_eval(result)
 
         def send_ccl(self, ccl):
-            """
-            :meta private:
-            """
+            """:meta private:"""
             self.parentWR().send_ccl(ccl)
 
     # The client-side socket object.
@@ -216,9 +199,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
 
     @staticmethod
     def end_life(self_weak_ref, data_driven_storage):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         # print(f"end_life {self_weak_ref=} {self_weak_ref()=}")
         # The weak ref will be 'None' if __del__ already ran.
         # Typically in scenarios where the object goes out of scope or gets deleted manually.
@@ -279,9 +260,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         additional_args_str,
         additional_kw_args,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.process_log_file = open(
             self.app_name.replace("-", "")  # Remove any hyphen from the product name
             + "Log"
@@ -442,9 +421,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         )
 
     def get_open_port(self):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # using '0' will tell the OS to pick a random port that is available.
         s.bind(("", 0))
@@ -454,33 +431,25 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         return port
 
     def get_hotfix_functions_dict(self):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         return dict()
 
     ######## BASIC CLIENT FUNCTIONALITY #######
     def log_core(self, message, log_level):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         if log_level.value >= self.pyengine_log_level.value:
             # print(message)
             self.console_log_file.write(message + "\n")
             self.console_log_file.flush()
 
     def set_log_level(self, log_level):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.pyengine_log_level = log_level
 
     def wait_engine_ready(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.log_core(
             f"wait_engine_ready with {self.app_name} status: {self.engine_ready}",
             self.ServerLogLevel.DEBUG,
@@ -495,9 +464,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def wait_no_send_queue(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.log_core(
             f"wait_no_send_queue with Q size: "
             "{self.send_message_process.engine_outgoing_message_queue.qsize()}",
@@ -521,9 +488,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         msg_type,
         msg,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         if self.block_each_message:
             self.wait_no_send_queue()
             self.wait_engine_ready()
@@ -545,9 +510,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         msg_type,
         msg,
     ) -> str:
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.wait_no_send_queue()
         self.wait_engine_ready()
         self.send_message_process.engine_outgoing_message_queue.put(
@@ -568,9 +531,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def query_functions(
         self,
     ) -> dict:
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message(
             "QURY",
             "Python Functions",
@@ -643,9 +604,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def query_stubs(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message(
             "QURY",
             "Python Stubs",
@@ -667,9 +626,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def query_doc_strings(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message(
             "QURY",
             "Python Doc Strings",
@@ -697,9 +654,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def query_doc_annotations(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message(
             "QURY",
             "Python Doc Annotations",
@@ -717,9 +672,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     def query_doc_defaults(
         self,
     ):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message(
             "QURY",
             "Python Doc Defaults",
@@ -735,23 +688,17 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         return eval(doc_strings_str)
 
     def get_rules(self) -> str:
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message("QURY", "Engine Rules")
         return self.engine_incoming_message_queue.get()
 
     def get_state(self) -> str:
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.queue_message("QURY", "Engine State")
         return self.engine_incoming_message_queue.get()
 
     def get_app_version(self) -> str:
-        """
-        :meta private:
-        """
+        """:meta private:"""
         return ""
 
     def get_version(self) -> str:
@@ -784,24 +731,18 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         return True
 
     def register_ccl_change_observer(self, observer: ICCLChangeObserver):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         self.engine_ccl_observers.add(observer)
 
     def notify_ccl_changes(self, ccl_changes: str):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         for observer in self.engine_ccl_observers:
             observer.notify_ccl_changes(ccl_changes)
 
     def quit(
         self,
     ):
-        """
-        Quit the application instance.
-        """
+        """Quit the application instance."""
         # print(
         #     f"quit: {self=} {self.already_exited=} {self.initialized=} {id(self.already_exited)=}"
         # )
@@ -868,42 +809,32 @@ class _CUEEngineInterface(IRemoteEngineInterface):
         self.client_socket.close()
 
     class InvalidQuery(Exception):
-        """
-        :meta private:
-        """
+        """:meta private:"""
 
         def __init__(self, query, app_name):
             message = f'The "{query}" function is not available in this version of {app_name}.'
             super().__init__(message)
 
     class BadQueryResult(Exception):
-        """
-        :meta private:
-        """
+        """meta private:"""
 
         def __init__(self, message):
             super().__init__(message)
 
     class ConnectionError(Exception):
-        """
-        :meta private:
-        """
+        """:meta private:"""
 
         def __init__(self, message):
             super().__init__(message)
 
     def handle_query_error(self, result):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         if result.startswith(self.QUERY_ERROR_PREFIX):
             msg = result[len(self.QUERY_ERROR_PREFIX) :]
             raise self.BadQueryResult(msg)
         return result
 
     def do_eval(self, result):
-        """
-        :meta private:
-        """
+        """:meta private:"""
         result = self.handle_query_error(result)
         return eval(result)

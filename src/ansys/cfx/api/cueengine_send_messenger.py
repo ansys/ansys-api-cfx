@@ -4,10 +4,13 @@ import threading
 
 
 class CUEEngineSendMessageService(threading.Thread):
+    """Class to handle sending messages from a CUE Engine."""
+
     cue_engine = 0
     engine_outgoing_message_queue: queue = 0  # a queue of string tuples (messageType, message)
 
     def __init__(self, parent_object):
+        """Initialize the service."""
         # calling parent class constructor
         self.engine_outgoing_message_queue = (
             queue.Queue()  # a queue of string tuples (messageType, message)
@@ -16,13 +19,16 @@ class CUEEngineSendMessageService(threading.Thread):
         self.cue_engine = parent_object
 
     def __del__(self):
+        """Class destructor."""
         pass
         # print(f"__del__ CUEEngineSendMessageService ")
 
     def log_send(self, message, log_level):
+        """Log the message to the log file if the log_level is high enough."""
         self.cue_engine().log_core(message, log_level)
 
     def run(self):
+        """Run the service."""
         self.log_send(
             "send_message_process: send_message_process running...",
             self.cue_engine().ServerLogLevel.NETWORK_DEBUG,
@@ -56,6 +62,7 @@ class CUEEngineSendMessageService(threading.Thread):
         self.log_send("Send Message Process Completed", self.cue_engine().ServerLogLevel.DEBUG)
 
     def send_message(self, message_type, message):
+        """Send a message to the engine."""
         self.cue_engine().engine_ready = False
         cue_data_key = "cueDataKey"
         if message_type == "PTSK":

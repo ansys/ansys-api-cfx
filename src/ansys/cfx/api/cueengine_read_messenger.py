@@ -6,21 +6,27 @@ import threading
 
 
 class CUEEngineReadMessageService(threading.Thread):
+    """Class to handle receiving messages from a CUE Engine."""
+
     cue_engine = 0
 
     def __init__(self, parent_object):
+        """Initialize the service."""
         # calling parent class constructor
         super().__init__()
         self.cue_engine = parent_object
 
     def __del__(self):
+        """Class destructor."""
         pass
         # print(f"__del__ CUEEngineReadMessageService ")
 
     def log_read(self, message, log_level):
+        """Log the message to the log file if the log_level is high enough."""
         self.cue_engine().log_core(message, log_level)
 
     def run(self):
+        """Run the service."""
         self.log_read(
             "read_message_process: read_message_process running...",
             self.cue_engine().ServerLogLevel.DEBUG,
@@ -88,6 +94,7 @@ class CUEEngineReadMessageService(threading.Thread):
         self.log_read("Read Message Process Completed", self.cue_engine().ServerLogLevel.DEBUG)
 
     def read_message_process(self, message_command_code):
+        """Read a message from the engine."""
         # we can check for t_message_pr
         #  code 'cueDataKey'
         message_header = self.cue_engine().client_socket.recv(4).decode("utf-8")
@@ -173,6 +180,7 @@ class CUEEngineReadMessageService(threading.Thread):
         return
 
     def extract_error(self, message):
+        """Extract an error message from the message received from the engine."""
         # Engine sends errors in the form:
         # {  ClassMethod = <class>:<method>,  Message = <msg>,}
         # The <msg> string could contain newlines.

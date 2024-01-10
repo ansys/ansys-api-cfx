@@ -10,9 +10,9 @@ CCLRulesObject = NewType("CCLRulesObject", None)  # type:ignore
 
 
 class CCLRulesObject:
-    """
-    CCL Rules object representation. A CCL Rules object is defined
-    in the following format
+    """CCL Rules object representation.
+
+    A CCL Rules object is defined in the following format
 
     PARAMETER: Parameter_Name
       Attribute = attribute_value
@@ -59,6 +59,7 @@ class CCLRulesObject:
     type: str
 
     def __init__(self, type: str, name: str, parent):
+        """Initialize the CCL Rules object."""
         self.type = type
         self.name = name
         self.parent = parent
@@ -68,6 +69,7 @@ class CCLRulesObject:
         self.param_map = {}
 
     def __str__(self) -> str:  # pragma: no cover
+        """Return a printable form of the object."""
         indent_level = 0
         parent = self.parent
         while parent:
@@ -90,13 +92,14 @@ class CCLRulesObject:
 
 
 class CCLRulesParser:
-    """
-    This class is for processing the CCL rules data. it parses
-    CCL rules from the Engine and generates CCL rules object
+    """This class is for processing the CCL rules data.
+
+    It parses CCL rules from the engine and generates a CCL rules object
     representation/template for all the defined CCL objects.
     """
 
     def __init__(self, ccl_rules: str):
+        """Initialize the rules parser."""
         self.process(ccl_rules)
 
     def _reset(self, ccl_rules: str):
@@ -105,6 +108,7 @@ class CCLRulesParser:
         self.current_node: CCLRulesObject = None
 
     def is_initialized(self) -> bool:
+        """Return True if the object is initialized."""
         return self.root is not None
 
     def _readline(self) -> str:
@@ -115,7 +119,7 @@ class CCLRulesParser:
         return line
 
     def get_object_types_by_category(self, category: str) -> List[str]:
-        """Returns a list of all CCL object types by the given category defined in CCL Rules."""
+        """Return a list of all CCL object types by the given category defined in CCL Rules."""
         obj_list: list[str] = []
 
         nodes: list[CCLRulesObject] = [self.root]
@@ -128,8 +132,7 @@ class CCLRulesParser:
         return obj_list
 
     def get_object_type_list(self) -> List[str]:
-        """Returns a list of all CCL object types defined in CCL Rules."""
-
+        """Return a list of all CCL object types defined in CCL Rules."""
         if not self.is_initialized():
             return []
 
@@ -145,8 +148,7 @@ class CCLRulesParser:
         return obj_list
 
     def get_object_definition(self, name: str) -> Dict[str, dict]:
-        """Returns a CCL Rules object definition."""
-
+        """Return a CCL Rules object definition."""
         if not self.is_initialized():
             return {}
 
@@ -231,8 +233,7 @@ class CCLRulesParser:
         return object_definition_map
 
     def process(self, ccl_rules: str) -> bool:
-        """Processes CCL rules to obtain all object definition info."""
-
+        """Process CCL rules to obtain all object definition info."""
         self._reset(ccl_rules)
 
         if not self.ccl_source.readable():

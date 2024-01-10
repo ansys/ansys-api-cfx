@@ -17,21 +17,25 @@ class CCLParameter:
     param_map: Dict[str, List[str]]
 
     def __init__(self, name: str, param_map: Dict[str, List[str]]):
+        """Initialize the CCL parameter."""
         self.name = name
         self.param_map = param_map
 
     def get_value_as_list(self) -> List[str]:
+        """Get the parameter value as a python list, or None if the parameter is not available."""
         if ccl.DEFAULT in self.param_map:
             return self.param_map[ccl.DEFAULT]
         return []
 
     def get_value(self) -> Optional[str]:
+        """Get the parameter value, or None if the parameter is not available."""
         value_list = self.get_value_as_list()
         if value_list:
             return ", ".join(value_list)
         return None
 
     def __str__(self) -> str:
+        """Return a printable string for the parameter, including indentation."""
         desc = ccl.CCL_INDENT + "PARAMETER:" + self.name + "\n"
         for param_name, param_value in self.param_map.items():
             desc += ccl.CCL_INDENT * 2 + param_name + " = " + ", ".join(param_value) + "\n"
@@ -44,6 +48,7 @@ class CCLContext:
     """Object representing a CCL context definition."""
 
     def __init__(self, name: str, param_map):
+        """Initialise the context CCL object."""
         param_object_map = param_map.pop("_param_objects", None)
 
         self.name = name
@@ -55,6 +60,7 @@ class CCLContext:
                 self.param_object_map[param_name] = CCLParameter(param_name, param_def_map)
 
     def __str__(self) -> str:
+        """Return a printable string for the object, including indentation."""
         desc = ccl.CCL_INDENT + "CONTEXT:" + self.name + "\n"
         for param_name, param_value in self.param_map.items():
             desc += ccl.CCL_INDENT * 2 + param_name + " = " + ", ".join(param_value) + "\n"
@@ -71,8 +77,9 @@ CCLObject = NewType("CCLObject", None)  # type:ignore
 
 
 class CCLObject:
-    """A class for querying and updating all objects that have a CCL
-    representation. A CCLObject contains the name, the type, the
+    """A class for querying and updating all objects that have a CCL representation.
+
+    A CCLObject contains the name, the type, the
     parameters of the object and internal rules that govern object
     parameter settings.
     """
@@ -103,6 +110,7 @@ class CCLObject:
         children: List[CCLObject] = [],
         is_sub_object: bool = False,
     ):
+        """Initialize the CCL object."""
         self._setattr("_type", type)
         self._setattr("_name", name)
         self._setattr("_engine_interface", engine_interface)
@@ -128,37 +136,36 @@ class CCLObject:
             self._context_map[context_name] = CCLContext(context_name, context_param_map)
 
     def get_type(self) -> str:
-        """Returns the type of the object."""
+        """Return the type of the object."""
         return self._type
 
     def get_name(self) -> str:
-        """Returns the name of the object."""
+        """Return the name of the object."""
         return self._name
 
     def is_valid(self) -> bool:
-        """Returns True if this object reference is valid, False otherwise."""
+        """Return True if this object reference is valid, False otherwise."""
         return self._is_valid
 
     def get_parent_path(self) -> str:
-        """Returns the path of the object's parent."""
+        """Return the path of the object's parent."""
         return "/" + "/".join(self._parents) if self._parents else ""
 
     def get_path(self) -> str:
-        """Returns the path of the object."""
+        """Return the path of the object."""
         type_name = ccl_utils.get_type_and_name_str(self._type, self._name)
         return self.get_parent_path() + "/" + type_name
 
     def get_child_objects(self) -> List[CCLObject]:
-        """Returns the list of all child objects."""
+        """Return the list of all child objects."""
         return self._children
 
     def is_a(self, category: str) -> bool:
-        """Returns true if an object belongs to a specific category."""
+        """Return true if an object belongs to a specific category."""
         return category in self._definition_map["Category"]
 
     def _get_parameter_value_under_context(self, name: str) -> List[str]:
-        """Returns parameter value as a list under current context option."""
-
+        """Return parameter value as a list under current context option."""
         option = self.get_value(self.get_option_name())
         if option in self._context_map:
             context = self._context_map[option]
@@ -175,16 +182,15 @@ class CCLObject:
         return []
 
     def get_optional_parameter_list(self) -> List[str]:
-        """Returns optional parameter list under current context option."""
+        """Return optional parameter list under current context option."""
         return self._get_parameter_value_under_context(ccl.OPTIONAL_PARAMETER_LIST)
 
     def get_essential_parameter_list(self) -> List[str]:
-        """Returns essential parameter list under current context option."""
+        """Return essential parameter list under current context option."""
         return self._get_parameter_value_under_context(ccl.ESSENTIAL_PARAMETER_LIST)
 
     def get_value(self, name: str) -> Optional[str]:
-        """Returns the value of the parameter as a string."""
-
+        """Return the value of the parameter as a string."""
         if name in self._user_param_map_local:
             return self._user_param_map_local[name]
 
@@ -207,8 +213,7 @@ class CCLObject:
         return None
 
     def get_bool_value(self, name: str) -> bool:
-        """Returns the value of the parameter as a boolean."""
-
+        """Return the value of the parameter as a boolean."""
         if not self.has_param(name):
             raise RuntimeError(f"Parameter '{name}' is not defined on the object.")
 
@@ -225,7 +230,7 @@ class CCLObject:
         raise RuntimeError(f"Parameter {name} (of type boolean) cannot have value '{value}'.")
 
     def get_option_name(self) -> str:
-        """Returns context option name for the object."""
+        """Return context option name for the object."""
         option_name = ccl.OPTION
         if ccl.CONTEXT_RULE in self._definition_map:
             context_option = self._definition_map[ccl.CONTEXT_RULE][0]
@@ -234,8 +239,7 @@ class CCLObject:
         return option_name
 
     def get_param_type(self, name: str) -> str:
-        """Returns the type of the given parameter."""
-
+        """Return the type of the given parameter."""
         if not self.has_param(name):
             raise RuntimeError(f"Parameter '{name}' is not defined on the object.")
 
@@ -253,8 +257,7 @@ class CCLObject:
         self._user_param_map_local[name] = value
 
     def set_value(self, name: str, value: str):
-        """Sets a given parameter to a given value."""
-
+        """Set a given parameter to a given value."""
         if name == self.get_option_name():
             if value not in self.get_option_list():
                 raise RuntimeError(f"Option '{value}' is not allowed.")
@@ -314,26 +317,25 @@ class CCLObject:
         self._set_value(name, value)
 
     def get_option_list(self) -> List[str]:
-        """Returns a list of all options."""
+        """Return a list of all options."""
         if ccl.ALLOWED_OPTION_LIST in self._definition_map:
             return self._definition_map[ccl.ALLOWED_OPTION_LIST]
         return []
 
     def set_option(self, value: str):
-        """Selects a given option."""
+        """Select a given option."""
         self.set_value(self.get_option_name(), value)
 
     def has_param(self, name: str) -> bool:
-        """Returns true if the object has the specified parameter,
-        false otherwise."""
+        """Return True if the object has the specified parameter, False otherwise."""
         return bool(name in self._default_param_map)
 
     def get_param_names(self) -> List[str]:
-        """Gets all parameter names of the object."""
+        """Get all parameter names of the object."""
         return self._default_param_map.keys()
 
     def get_state(self) -> str:
-        """Returns the state of the object in CCL syntax."""
+        """Return the state of the object in CCL syntax."""
         indent_level = 0
         desc: str = ""
         for p in self._parents:
@@ -383,8 +385,7 @@ class CCLObject:
         return desc
 
     def get_rule_definition(self) -> str:
-        """Returns the object definition by the rules in CCL syntax."""
-
+        """Return the object definition by the rules in CCL syntax."""
         rule_type = "OBJECT"
         if not self.name or self._type == self.name:
             rule_type = "SINGLETON"
@@ -407,8 +408,7 @@ class CCLObject:
         return desc
 
     def apply_state(self):
-        """Applies object state to the Engine."""
-
+        """Apply object state to the engine."""
         if not self.is_valid():
             raise RuntimeError(
                 f"CCLObject::apply_state: This object is no longer valid and may have been deleted "
@@ -428,6 +428,7 @@ class CCLObject:
         self._user_param_map_local.clear()
 
     def __setattr__(self, name, value):
+        """Override __set_attr__ to prevent creation or overriding of attributes."""
         # Allow object content swapping to work - ref ccl_object_db
         if name == "__dict__":
             super().__setattr__(name, value)
@@ -449,7 +450,9 @@ class CCLObject:
         raise AttributeError(name)
 
     def __call__(self) -> str:
+        """Return a printable form of the CCL object."""
         return self.get_state()
 
     def __str__(self) -> str:
+        """Return a printable form of the CCL object."""
         return self.get_state()

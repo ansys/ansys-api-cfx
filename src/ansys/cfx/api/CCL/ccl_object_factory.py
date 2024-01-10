@@ -16,6 +16,7 @@ class CCLObjectFactory:
     rules_parser: CCLRulesParser
 
     def __init__(self, engine_interface: IRemoteEngineInterface):
+        """Initialize the object factory."""
         self._initialized = True
         self.engine_interface = engine_interface
         ccl_rules = self.engine_interface.get_rules()
@@ -23,11 +24,13 @@ class CCLObjectFactory:
         self.object_list: List[str] = []
 
     def get_object_type_list(self) -> List[str]:
+        """Return a list of all CCL object types defined in CCL Rules."""
         if not self.object_list:
             self.object_list = self.rules_parser.get_object_type_list()
         return self.object_list
 
     def get_object_types_by_category(self, category: str) -> List[str]:
+        """Return a list of all CCL object types by the given category defined in CCL Rules."""
         return self.rules_parser.get_object_types_by_category(category)
 
     def create_object_with_user_state(

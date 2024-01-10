@@ -6,6 +6,7 @@ class StateCCLObject:
     """Class represents a CUE state CCL object."""
 
     def __init__(self, type: str, name: str, parent):
+        """Initialize the object state."""
         self.parent: StateCCLObject = parent
         self.type: str = type
         self.name: str = name
@@ -13,9 +14,11 @@ class StateCCLObject:
         self.param_map: dict[str, str] = {}
 
     def exists(self) -> bool:
+        """Return True if the object exists."""
         return True
 
     def get_full_path(self) -> str:
+        """Get the full path for the object."""
         all_nodes = [self]
         parent = self.parent
         while parent and parent.exists():
@@ -32,6 +35,7 @@ class StateCCLObject:
         return full_path
 
     def __str__(self) -> str:  # pragma: no cover
+        """Return a printable form for the object."""
         indent_level = -1
         parent: StateCCLObject = self.parent
         while parent:

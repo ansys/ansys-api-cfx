@@ -22,19 +22,22 @@ _ccl_db = SimpleNamespace(
 
 
 class ODBCCLObjectRoot(StateCCLObject):
-    """
-    This class serves as the root of CCL state tree.
+    """This class serves as the root of CCL state tree.
+
     It allows us to take advantage of the recursive nature of
     the tree structure in ccl state parsing.
     """
 
     def __init__(self):
+        """Initialize the root object."""
         super().__init__("_ROOT", "", None)
 
     def exists(self) -> bool:
+        """Return False as the root object is not a standard CCL object."""
         return False
 
     def __str__(self) -> str:
+        """Return a printable form for the whole CCL state tree."""
         desc = ""
         for c in self.children:
             desc += str(c)
@@ -54,6 +57,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
     db_is_up_to_date: bool
 
     def __init__(self, engine_interface: IRemoteEngineInterface):
+        """Initialize the object DB."""
         self.engine_interface = engine_interface
         self.cached_objects = weakref.WeakValueDictionary()
         self.object_factory = CCLObjectFactory(engine_interface)
@@ -71,13 +75,15 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return [self.root]
 
     def ensure_db_is_up_to_date(self):
+        """Ensure that the database is up-to-date."""
         if not self.db_is_up_to_date:
             self._sync_with_engine()
 
     def _sync_with_engine(self) -> bool:
-        """Update database data including all existing user object data
-        with new data from the Engine server."""
+        """Update database data with new data from the engine server.
 
+        The update includes all existing user object data.
+        """
         if not self.update():
             return False
 
@@ -105,7 +111,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return line
 
     def has_object(self, path: str) -> bool:
-        """Returns True if the given object path exists, otherwise False."""
+        """Return True if the given object path exists, otherwise False."""
         return self._get_object_node_by_path(path) is not None
 
     def generate_new_object_name(self, type: str, parent_path_or_name: Optional[str] = None) -> str:
@@ -120,8 +126,10 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
                 return name
 
     def create_new_object(self, type: str, name: str, parent_path: str) -> CCLObject:
-        """Creates a new CCL object with default state. Throw if object of
-        the given name and parent path already exists."""
+        """Create a new CCL object with default state.
+
+        Throw if an object of the given name and parent path already exists.
+        """
         if self._get_object_node_by_type_and_name(type, name, parent_path):
             raise RuntimeError(
                 f"Object already exists: type = {type}, name = {name}, parent = {parent_path}."
@@ -132,7 +140,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return ccl_object
 
     def get_objects_by_category(self, category: str) -> List[CCLObject]:
-        """Returns a list of all objects by the given category."""
+        """Return a list of all objects by the given category."""
         obj_list = []
         nodes: List[StateCCLObject] = self._get_node_tree()
         object_types = self.object_factory.get_object_types_by_category(category)
@@ -147,7 +155,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return obj_list
 
     def get_objects_by_type(self, type: str) -> List[CCLObject]:
-        """Returns a list of all objects by the given type."""
+        """Return a list of all objects by the given type."""
         obj_list = []
         nodes: List[StateCCLObject] = self._get_node_tree()
         while nodes:
@@ -160,7 +168,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return obj_list
 
     def get_objects_by_name(self, name: str) -> List[CCLObject]:
-        """Returns a list of all objects by the given name."""
+        """Return a list of all objects by the given name."""
         obj_list = []
         nodes: List[StateCCLObject] = self._get_node_tree()
         while nodes:
@@ -174,7 +182,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return obj_list
 
     def get_object_by_path(self, path: str) -> Optional[CCLObject]:
-        """Returns a CCLObject by the given path."""
+        """Return a CCLObject by the given path."""
         node = self._get_object_node_by_path(path)
         if node:
             return self._get_ccl_object(node)
@@ -183,7 +191,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
     def get_object_by_path_and_name(
         self, parent_path_or_name: str, name: str
     ) -> Optional[CCLObject]:
-        """Returns a CCLObject by the given parent path and name."""
+        """Return a CCLObject by the given parent path and name."""
         node = self._get_object_node_by_type_and_name(None, name, parent_path_or_name)
         if node:
             return self._get_ccl_object(node)
@@ -192,14 +200,14 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
     def get_object_by_type_and_name(
         self, type: str, name: str, parent_path_or_name: Optional[str] = None
     ) -> Optional[CCLObject]:
-        """Returns a CCLObject by the given type and name."""
+        """Return a CCLObject by the given type and name."""
         node = self._get_object_node_by_type_and_name(type, name, parent_path_or_name)
         if node:
             return self._get_ccl_object(node)
         return None
 
     def get_object_path_list(self) -> List[str]:
-        """Returns a list of all object paths."""
+        """Return a list of all object paths."""
         obj_list = []
         nodes: List[StateCCLObject] = self._get_node_tree()
         while nodes:
@@ -210,7 +218,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return obj_list
 
     def get_object_name_list(self) -> List[str]:
-        """Returns a list of all objects in type:name pairs."""
+        """Return a list of all objects in type:name pairs."""
         obj_list = []
         nodes: List[StateCCLObject] = self._get_node_tree()
         while nodes:
@@ -227,7 +235,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         self.cached_objects[obj.get_path()] = obj
 
     def _get_ccl_object(self, node: StateCCLObject) -> CCLObject:
-        """Internal method for creating db ccl object."""
+        """Create db ccl object."""
         full_path = node.get_full_path()
         if full_path in self.cached_objects:
             return self.cached_objects[full_path]
@@ -249,8 +257,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
     def _get_object_node_by_type_and_name(
         self, type: Optional[str], name: str, parent_path: Optional[str]
     ) -> Optional[StateCCLObject]:
-        """Internal method to find a tree node based on object type, name and parent."""
-
+        """Find a tree node based on object type, name and parent."""
         nodes: List[StateCCLObject] = self._get_node_tree()
         while nodes:
             node = nodes.pop(0)
@@ -277,7 +284,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return None
 
     def notify_ccl_changes(self, ccl_changes: str):
-        """Processes CCL change notification from Engine."""
+        """Process a CCL change notification from the engine."""
         data_map = json.loads(ccl_changes)
         for change_type, change_list in data_map.items():
             if change_type not in self.ccl_change_record:
@@ -311,8 +318,7 @@ class CCLObjectDB(ICCLChangeObserver, IObjectDBService):
         return
 
     def update(self) -> bool:
-        """Refreshes the database info with the current state of the Engine."""
-
+        """Refresh the database info with the current state of the engine."""
         ccl_state = self.engine_interface.get_state()
 
         self._reset(ccl_state)

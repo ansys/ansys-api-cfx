@@ -4,6 +4,10 @@ from ansys.cfx.api import pypost_core, pypre_core
 
 
 def add_engine_functions_for_doc():
+    """Patch the PyPre and/or PyPost classes with function definitions from the related engine.
+
+    Only intended for use during a documentation build under the GitHub workflows.
+    """
     try:
         import os
 

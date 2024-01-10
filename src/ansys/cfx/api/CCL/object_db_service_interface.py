@@ -7,4 +7,5 @@ class IObjectDBService(ABC):
 
     @abstractmethod
     def ensure_db_is_up_to_date(self):
+        """Ensure that the database is up-to-date."""
         ...
