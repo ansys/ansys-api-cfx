@@ -1,6 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
 
-from ansys.cfx.api import pypre_core, pypost_core
+from ansys.cfx.api import pypost_core, pypre_core
 
 
 def add_engine_functions_for_doc():
