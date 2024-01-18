@@ -1,5 +1,5 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
-"""This module defines project-level ccl constants."""
+"""This module defines project-level CCL constants."""
 
 import re
 

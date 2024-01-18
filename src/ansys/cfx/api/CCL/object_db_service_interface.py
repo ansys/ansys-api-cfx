@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module defines an interface for accessing object database services."""
+
 from abc import ABC, abstractmethod
 
 

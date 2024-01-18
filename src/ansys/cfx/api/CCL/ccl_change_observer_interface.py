@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module defines an interface for observing CCL state changes."""
+
 from abc import ABC, abstractmethod
 
 

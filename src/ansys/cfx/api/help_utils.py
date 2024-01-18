@@ -1,4 +1,5 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module contains utilities relating to documentation builds."""
 
 from ansys.cfx.api import pypost_core, pypre_core
 

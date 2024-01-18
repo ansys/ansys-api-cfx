@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module provides functionality for handling CCL object state."""
+
 from . import ccl_utils
 
 

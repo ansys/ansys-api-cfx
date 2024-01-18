@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module defines an interface for interacting with a CUE engine process."""
+
 from abc import ABC, abstractmethod
 
 from .ccl_change_observer_interface import ICCLChangeObserver

@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module provides a CCL object factory class."""
+
 from typing import List
 
 from . import ccl_utils

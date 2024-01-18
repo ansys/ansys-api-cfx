@@ -1,10 +1,12 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module handles messages being sent to a CUE engine process."""
+
 import queue
 import threading
 
 
 class CUEEngineSendMessageService(threading.Thread):
-    """Class to handle sending messages from a CUE Engine."""
+    """Class to handle sending messages to a CUE engine process."""
 
     cue_engine = 0
     engine_outgoing_message_queue: queue = 0  # a queue of string tuples (messageType, message)

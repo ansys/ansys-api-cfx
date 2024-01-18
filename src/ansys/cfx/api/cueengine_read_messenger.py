@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module handles messages received from a CUE engine process."""
+
 import re
 import socket
 import sys
@@ -6,7 +8,7 @@ import threading
 
 
 class CUEEngineReadMessageService(threading.Thread):
-    """Class to handle receiving messages from a CUE Engine."""
+    """Class to handle receiving messages from a CUE engine process."""
 
     cue_engine = 0
 

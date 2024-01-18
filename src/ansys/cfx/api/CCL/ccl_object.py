@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module provides functionality relating to a CCL object."""
+
 import re
 from typing import Dict, List, NewType, Optional
 

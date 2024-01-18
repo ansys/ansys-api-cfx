@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module contains functionality for launching and communicating with any CUE engine."""
+
 from enum import IntEnum
 import io
 import os
@@ -88,7 +90,7 @@ class _CUEEngineInterface(IRemoteEngineInterface):
     # All of the engine console output will be written here
     console_log_file: io.TextIOWrapper = 0  #: :meta private:
 
-    # All of the log messages for this clieant will be written here
+    # All of the log messages for this client will be written here
     process_log_file: io.TextIOWrapper = 0  #: :meta private:
 
     # All of the communications going to the engine from this client will be written here

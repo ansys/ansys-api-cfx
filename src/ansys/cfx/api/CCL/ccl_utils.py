@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module contains some CCL handling utilities."""
+
 from typing import Optional
 
 

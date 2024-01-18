@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module handles parsing of a CCL Rules file."""
+
 from io import StringIO
 import re
 from typing import Dict, List, NewType

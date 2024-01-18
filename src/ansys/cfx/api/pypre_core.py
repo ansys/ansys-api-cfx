@@ -1,4 +1,6 @@
 # Copyright (c) 2024 ANSYS, Inc. All rights reserved
+"""This module contains functionality for launching and communicating with CFX-Pre."""
+
 from enum import IntEnum
 from typing import Optional
 
