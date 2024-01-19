@@ -64,3 +64,6 @@ source = ["ansys/cfx"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.pydocstyle]
+add-ignore = ["D400"]
