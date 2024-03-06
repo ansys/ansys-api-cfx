@@ -3,10 +3,11 @@
 # and use the command pytest -v. -s can be added as well to see all of the console output.
 
 
-from ansys.cfx.api import pypre_core
 import os
 from pathlib import Path
 import shutil
+
+from ansys.cfx.api import pypre_core
 
 
 def test_pre_client_startup(pypre: pypre_core.PyPre):
@@ -15,7 +16,6 @@ def test_pre_client_startup(pypre: pypre_core.PyPre):
 
 
 def test_pre_basic(pypre: pypre_core.PyPre):
-
     pypre.block_each_message = True
 
     pypre.read_case(filename="tests/data/StaticMixer.cfx")
@@ -55,7 +55,6 @@ def test_pre_basic(pypre: pypre_core.PyPre):
 
 
 def test_pre_state(pypre: pypre_core.PyPre):
-
     pypre.block_each_message = True
 
     pypre.new_case()
@@ -74,7 +73,6 @@ def test_pre_state(pypre: pypre_core.PyPre):
 
 
 def test_pre_session(pypre: pypre_core.PyPre):
-
     pypre.block_each_message = True
 
     pypre.read_session(filename="tests/data/StaticMixer.pre")

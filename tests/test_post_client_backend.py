@@ -2,12 +2,13 @@
 # To run these tests, navigate your terminal to the root of this project (ansys-api-turbogrid)
 # and use the command pytest -v. -s can be added as well to see all of the console output.
 
-from ansys.cfx.api import pypost_core
-from ansys.cfx.api.CCL.ccl_object_factory import CCLObjectFactory
-from ansys.cfx.api.CCL.ccl_object import CCLObject
-from ansys.cfx.api.CCL.ccl_object_db import CCLObjectDB
 import os
 from pathlib import Path
+
+from ansys.cfx.api import pypost_core
+from ansys.cfx.api.CCL.ccl_object import CCLObject
+from ansys.cfx.api.CCL.ccl_object_db import CCLObjectDB
+from ansys.cfx.api.CCL.ccl_object_factory import CCLObjectFactory
 
 
 def test_post_client_startup(pypost: pypost_core.PyPost):
@@ -16,7 +17,6 @@ def test_post_client_startup(pypost: pypost_core.PyPost):
 
 
 def test_post_basic(pypost: pypost_core.PyPost):
-
     pypost.block_each_message = True
 
     pypost.read_case(filename="tests/data/StaticMixer.def")
@@ -51,7 +51,6 @@ def test_post_basic(pypost: pypost_core.PyPost):
 
 
 def test_post_state_and_ccl(pypost: pypost_core.PyPost):
-
     pypost.block_each_message = True
 
     pypost.read_state(filename="tests/data/StaticMixer.cst", load_results=True)
@@ -95,7 +94,6 @@ def test_post_state_and_ccl(pypost: pypost_core.PyPost):
 
 
 def test_post_session(pypost: pypost_core.PyPost):
-
     pypost.block_each_message = True
 
     pypost.read_session(filename="tests/data/StaticMixer.cse")

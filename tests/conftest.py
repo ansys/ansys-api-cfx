@@ -131,7 +131,6 @@ def pypre() -> pypre_core.PyPre:
 
 @pytest.fixture
 def pypost() -> pypost_core.PyPost:
-
     pytest.socket_port = get_open_port()
 
     cfx_versions = ["242", "241"]
