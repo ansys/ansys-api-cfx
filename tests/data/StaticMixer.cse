@@ -1,0 +1,45 @@
+# Session file started:  2024/03/05 10:49:53
+# Build 24.2 2024-03-04T11:32:38.326753 by sjwilson
+
+# To avoid unnecessary file pre-processing and modifications, include
+# COMMAND FILE at the top of your session file.
+# If it is not included, the file is assumed to be older and will be
+# modified for backward compatibility.
+COMMAND FILE:
+  CFX Post Version = 24.2
+END
+
+DATA READER:
+  Clear All Objects = false
+  Append Results = false
+  Edit Case Names = false
+  Multi Configuration File Load Option = Last Case
+  Open in New View = true
+  Keep Camera Position = true
+  Load Particle Tracks = true
+  Multi Configuration File Load Option = Last Case
+  Construct Variables From Fourier Coefficients = true
+  Open to Compare = false
+  Files to Compare =
+END
+
+>load filename=tests/data/StaticMixer.cfx, force_reload=true
+
+EXPORT:
+  CSV Type = CSV
+  Case Name = Case StaticMixer
+  Export File = StaticMixerPostTest2.csv
+  Export Geometry = On
+  Export Type = Generic
+  Include File Information = Off
+  Include Header = On
+  Location = F1.B1.P3
+  Location List = F1.B1.P3
+  Overwrite = On
+  Variable List = X, Y, Z
+END
+>export
+
+
+# Session file stopped:  2024/03/05 10:51:05
+

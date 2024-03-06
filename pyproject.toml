@@ -59,11 +59,25 @@ line_length = 100
 default_section = "THIRDPARTY"
 src_paths = ["doc", "src", "tests"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--cov=ansys.cfx.api"]
+markers = [
+    "Pre : Tests that instantiate a pypre_core.PyPre object",
+    "Post : Tests that instantiate a pypost_core.PyPost object",
+]
+     
 [tool.coverage.run]
-source = ["ansys/cfx"]
+source = ["src/ansys/cfx"]
 
 [tool.coverage.report]
 show_missing = true
+omit = [
+    # not used yet:
+    #   <no files to list here>
+    # abstract interfaces
+    "src/ansys/cfx/api/CCL/*_interface.py",
+]
 
 [tool.pydocstyle]
 add-ignore = ["D400"]

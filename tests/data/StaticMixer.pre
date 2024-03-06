@@ -1,0 +1,50 @@
+# Session file started:  2024/03/04 11:39:19
+# Build 24.2 2024-02-29T23:07:12.508355 by sjwilson
+
+COMMAND FILE:
+  CFX Pre Version = 24.2
+END
+
+>load filename=tests/data/StaticMixer.def, mode=def, \
+recoverSession=no, replaceFlow=yes, overwrite=yes
+> update
+
+>copy from=/FLOW:Flow Analysis 1, to=/FLOW:Copy of Flow Analysis 1
+> update
+
+SIMULATION CONTROL:
+  CONFIGURATION CONTROL:
+    &replace     CONFIGURATION: Configuration 1
+      Flow Name = Flow Analysis 1
+      ACTIVATION CONTROL:
+        CONTROL CONDITION: Activation Condition 1
+          Option = Start of Simulation
+        END # CONTROL CONDITION:Activation Condition 1
+      END # ACTIVATION CONTROL:
+    END # CONFIGURATION:Configuration 1
+  END # CONFIGURATION CONTROL:
+END # SIMULATION CONTROL:
+> update
+
+SIMULATION CONTROL:
+  CONFIGURATION CONTROL:
+    &replace     CONFIGURATION: Configuration 2
+      Flow Name = Copy of Flow Analysis 1
+      ACTIVATION CONTROL:
+        CONTROL CONDITION: Activation Condition 1
+          Configuration Name List = Configuration 1
+          Option = End of Configuration
+        END # CONTROL CONDITION:Activation Condition 1
+      END # ACTIVATION CONTROL:
+    END # CONFIGURATION:Configuration 2
+  END # CONFIGURATION CONTROL:
+END # SIMULATION CONTROL:
+> update
+
+>writeCaseFile filename=StaticMixerPreTest.mdef,operation=write def file
+> update
+
+> update
+
+# Session file stopped:  2024/03/04 11:40:32
+
