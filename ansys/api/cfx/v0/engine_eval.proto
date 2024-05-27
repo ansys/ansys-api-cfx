@@ -1,0 +1,40 @@
+//
+// Copyright 2024 ANSYS, Inc. Unauthorized use, distribution, or duplication is prohibited. 
+//
+
+syntax = "proto3";
+
+package grpcRemoting;
+
+service EngineEval {
+  rpc ExpressionEval(ExpressionEvalRequest) returns (ExpressionEvalResponse);
+  rpc InfoQuery(InfoQueryRequest) returns (InfoQueryResponse);
+  rpc ProcessCCL(ProcessCCLRequest) returns (ProcessCCLResponse);
+}
+
+message ProcessCCLRequest {
+  repeated string ccl = 1;
+  bool wait = 2;
+  bool silent = 3;  // if true, input won't be printed
+}
+
+message ProcessCCLResponse {
+  string output = 1;
+}
+
+message InfoQueryRequest {
+  string query = 1;
+  optional string args = 2;
+}
+
+message InfoQueryResponse {
+  string output = 1;
+}
+
+message ExpressionEvalRequest {
+  string input = 1;
+}
+
+message ExpressionEvalResponse {
+  string output = 1;
+}

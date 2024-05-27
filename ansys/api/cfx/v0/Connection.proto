@@ -1,0 +1,33 @@
+//
+// Copyright 1987-2022 ANSYS, Inc. All Rights Reserved.
+//
+
+syntax = "proto3";
+
+//package ansys.cfx.api.v0;
+package grpcRemoting;
+
+service Connection {
+  rpc Connect(ConnectRequest) returns (stream ConnectResponse) {}
+}
+enum ConnectionError {
+  NoError = 0;
+  PasswordMismatch = 1;
+  MaxConnectionsCountExceeded = 2;
+  UnknownError = 3;
+  VersionMismatch = 4;
+  WaitTimeExpired = 5;
+}
+message ConnectRequest {
+  enum RequestType {
+    CONNECT = 0;
+    PAUSE = 1;
+  }
+  RequestType requesttype = 1;
+  string password = 2;
+  string version = 3;
+}
+
+message ConnectResponse {
+  ConnectionError errorcode = 1;
+}
