@@ -4,7 +4,7 @@
 
 syntax = "proto3";
 
-//package ansys.cfx.api.v0;
+// package ansys.cfx.api.v0;
 package grpcRemoting;
 
 service Connection {
