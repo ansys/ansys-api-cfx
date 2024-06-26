@@ -1,4 +1,4 @@
-"""Installation file for the ansys-api-cfx package"""
+"""Installation file for the ``ansys-api-cfx`` package"""
 
 import os
 from datetime import datetime
@@ -15,7 +15,7 @@ with open(os.path.join(HERE, "README.md"), encoding="utf-8") as f:
 product = "cfx"
 library = ""
 package_info = ["ansys", "api", product, library, "v0"]
-with open(os.path.join(HERE, "ansys", "api", product, library, "VERSION"), encoding="utf-8") as f:
+with open(os.path.join(HERE, "src", "ansys", "api", product, library, "VERSION"), encoding="utf-8") as f:
     version = f.read().strip()
 
 package_name = "ansys-api-cfx"
@@ -36,7 +36,8 @@ if __name__ == "__main__":
         license="MIT",
         python_requires=">=3.9",
         install_requires=["grpcio~=1.30", "protobuf>=3.19,<5"],
-        packages=setuptools.find_namespace_packages(".", include=("ansys.*",)),
+        package_dir={"": "src"},
+        packages=setuptools.find_namespace_packages("src", include=("ansys.*",)),
         package_data={
             "": ["*.proto", "*.pyi", "py.typed", "VERSION"],
         },

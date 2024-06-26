@@ -21,7 +21,7 @@ Otherwise, see the
 For developers
 --------------
 If you plan on doing local *development* of PyCFX with Git, install
-the latest release PyCFX with:
+the latest release of ansys-api-cfx with:
 
 ```
 git clone https://github.com/ansys-internal/ansys-api-cfx
