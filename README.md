@@ -18,6 +18,19 @@ Otherwise, see the
 
 #### Build
 
+For developers
+--------------
+If you plan on doing local *development* of PyCFX with Git, install
+the latest release PyCFX with:
+
+```
+git clone https://github.com/ansys-internal/ansys-api-cfx
+cd ansys-api-cfx
+pip install pip -U
+pip install -e .
+```
+
+
 To build the gRPC packages, run:
 
 ```
@@ -31,9 +44,7 @@ files.
 
 Note that the interface files are identical regardless of the version of Python
 used to generate them, but the last pre-built wheel for ``grpcio~=1.30`` was
-Python 3.7, so to improve your build time, use Python 3.7 when building the
-wheel.
-
+Python 3.7.
 
 #### Manual Deployment
 
