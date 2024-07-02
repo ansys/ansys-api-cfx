@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package grpcRemoting;
+
+service BatchOps {
+  rpc Execute(stream ExecuteRequest) returns (stream ExecuteResponse);
+}
+
+message ExecuteRequest {
+  string package = 1;
+  string service = 2;
+  string method = 3;
+  bytes request_body = 4;
+}
+
+enum ExecuteStatus {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_UNKNOWN = 1;      // package, service or method is not known
+  STATUS_UNSUPPORTED = 2;  // method is not grpc-unary
+  STATUS_SUCCESSFUL = 3;
+  STATUS_FAILED = 4;
+  STATUS_CANCELLED = 5;  // one of the previous operations is not successful
+}
+
+message ExecuteResponse {
+  ExecuteStatus status = 1;
+  bytes response_body = 2;
+}
