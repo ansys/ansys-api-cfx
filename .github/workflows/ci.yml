@@ -46,9 +46,9 @@ jobs:
           python -c "import ansys.api.cfx; print('Successfully imported ansys.api.cfx')"
           python -c "from ansys.api.cfx import __version__; print(__version__)"
       - name: Upload packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: ansys-api-cfx-packages
+          name: ansys-api-cfx-artifacts
           path: dist/
           retention-days: 7
 
