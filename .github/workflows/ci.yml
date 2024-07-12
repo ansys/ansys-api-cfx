@@ -74,6 +74,8 @@ jobs:
           #twine-token: ${{ secrets.PYPI_TOKEN }}
 
       - name: "Release to GitHub"
-        uses: ansys/actions/release-github@v6
+        uses: softprops/action-gh-release@v2
         with:
-          library-name: ${{ env.LIBRARY_NAME }}
+          generate_release_notes: true
+          files: |
+            ./**/*.whl
