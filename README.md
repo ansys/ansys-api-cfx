@@ -1,5 +1,7 @@
 ### ansys-api-cfx gRPC Interface Package
 
+![Ansys logo](./doc/source/_static/ansys-logo.png)
+
 This Python package contains the auto-generated gRPC Python interface files for
 CFX.
 
