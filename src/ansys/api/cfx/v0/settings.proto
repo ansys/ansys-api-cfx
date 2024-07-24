@@ -1,0 +1,211 @@
+//
+// Copyright 2025 ANSYS, Inc. Unauthorized use, distribution, or duplication is prohibited.
+//
+
+syntax = "proto3";
+
+package grpcRemoting;
+
+service Settings {
+  /* Static info about objects (type, children, commands, arguments,
+     object-type) in a recursive manner. */
+  rpc GetStaticInfo(GetStaticInfoRequest) returns (GetStaticInfoResponse);
+
+  /* Get the value of a path */
+  rpc GetVar(GetVarRequest) returns (GetVarResponse);
+
+  /* Set the value of a path */
+  rpc SetVar(SetVarRequest) returns (SetVarResponse);
+
+  /* Rename an object */
+  rpc Rename(RenameRequest) returns (RenameResponse);
+
+  /* Create a new object */
+  rpc Create(CreateRequest) returns (CreateResponse);
+
+  /* Delete an object */
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+
+  /* Get the current list of object names */
+  rpc GetObjectNames(GetObjectNamesRequest) returns (GetObjectNamesResponse);
+
+  /* Get the number of elements in a list object */
+  rpc GetListSize(GetListSizeRequest) returns (GetListSizeResponse);
+
+  /* Resize a list object */
+  rpc ResizeListObject(ResizeListObjectRequest) returns (ResizeListObjectResponse);
+
+  /* Execute a command */
+  rpc ExecuteCommand(ExecuteCommandRequest) returns (ExecuteCommandResponse);
+
+  /* Execute a query */
+  rpc ExecuteQuery(ExecuteQueryRequest) returns (ExecuteQueryResponse);
+
+  /* Attribute access */
+  rpc GetAttrs(GetAttrsRequest) returns (GetAttrsResponse);
+}
+
+/* Represents value of an object -- return value of GetVar */
+message Value {
+  message ValueList {
+    repeated Value lst = 1;
+  };
+  message ValueMap {
+    map<string, Value> m = 1;
+  };
+  oneof value {
+    bool boolean = 2;
+    int64 integer = 3;
+    double real = 4;
+    string string = 5;
+    ValueList value_list = 10;
+    ValueMap value_map = 11;
+  };
+}
+
+message PathInfo {
+  string root = 1;
+  string path = 2;
+}
+
+message StaticInfoMap {
+  string name = 1;
+  StaticInfo value = 2;
+}
+
+message StaticInfo {
+  // Type of the current object e.g. group, named-object.
+  string type = 1;
+  // Children of current object.
+  repeated StaticInfoMap children = 2;
+  // Commands available for current object.
+  repeated StaticInfoMap commands = 3;
+  // Queries available for current object.
+  repeated StaticInfoMap queries = 11;
+  // Arguments associated with the current command/query object.
+  repeated StaticInfoMap arguments = 4;
+  // Class template for named object instance.
+  StaticInfo object_type = 5;
+  // Help string for the current object.
+  string help = 6;
+  // Boolean indicating if the current object has list of allowed values.
+  bool has_allowed_values = 7;
+  // Boolean indicating if the named object instances of the children of the current object
+  // can be exposed as the named object instances of current object itself. E.g. boundary_conditions.
+  bool include_child_named_objects = 8;
+  // Size of the list objects with fixed size.
+  int32 list_size = 9;
+  // Boolean indicating if an instance can be created by the user for the current named-object.
+  bool user_creatable = 10;
+  // File purpose string for the current command object.
+  map<string, Value> attrs = 12;
+}
+
+message GetStaticInfoRequest {
+  string root = 1;
+}
+
+message GetStaticInfoResponse {
+  StaticInfo info = 1;
+}
+
+message GetVarRequest {
+  PathInfo path_info = 1;
+}
+
+message GetVarResponse {
+  Value value = 1;
+}
+
+message SetVarRequest {
+  PathInfo path_info = 1;
+  Value value = 2;
+}
+
+message SetVarResponse {
+}
+
+message CreateRequest {
+  PathInfo path_info = 1;
+  string name = 2;
+}
+
+message CreateResponse {
+}
+
+message RenameRequest {
+  PathInfo path_info = 1;
+  string old_name = 2;
+  string new_name = 3;
+}
+
+message RenameResponse {
+}
+
+message DeleteRequest {
+  PathInfo path_info = 1;
+  string name = 2;
+}
+
+message DeleteResponse {
+}
+
+message GetObjectNamesRequest {
+  PathInfo path_info = 1;
+}
+
+message GetObjectNamesResponse {
+  repeated string names = 1;
+}
+
+message GetListSizeRequest {
+  PathInfo path_info = 1;
+}
+
+message GetListSizeResponse {
+  int32 size = 1;
+}
+
+message ResizeListObjectRequest {
+  PathInfo path_info = 1;
+  int32 size = 2;
+}
+
+message ResizeListObjectResponse {
+}
+
+message ExecuteCommandRequest {
+  PathInfo path_info = 1;
+  string command = 2;
+  Value args = 3;
+}
+
+message ExecuteCommandResponse {
+  Value reply = 1;
+}
+
+message ExecuteQueryRequest {
+  PathInfo path_info = 1;
+  string query = 2;
+  Value args = 3;
+}
+
+message ExecuteQueryResponse {
+  Value reply = 1;
+}
+
+message GetAttrsRequest {
+  PathInfo path_info = 1;
+  repeated string attrs = 2;
+  bool recursive = 3;
+}
+
+message AttrInfoMap {
+  string name = 1;
+  GetAttrsResponse value = 2;
+}
+
+message GetAttrsResponse {
+  Value values = 1;
+  repeated AttrInfoMap group_children = 2;
+}
