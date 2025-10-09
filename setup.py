@@ -7,6 +7,8 @@ import setuptools
 
 from ansys.tools.protoc_helper import CMDCLASS_OVERRIDE
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+
 long_description = """### ansys-api-cfx gRPC Interface Package
 
 This Python package contains the auto-generated gRPC Python interface files for
