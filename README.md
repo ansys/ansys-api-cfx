@@ -44,7 +44,7 @@ these are built on PRs, the main branch, and on tags when pushing. Artifacts
 are uploaded for each PR.
 
 To publicly release wheels to PyPI, ensure your branch is up-to-date and then
-push tags. For example, for the version `v0.5.0`.
+push tags. For example, for the version `v0.5.0`:
 
 ```bash
 git tag v0.5.0
