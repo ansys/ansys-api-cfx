@@ -5,7 +5,7 @@ CFX.
 
 #### Installation
 
-Provided that the wheel has been published to the [public PyPI](pypi.org), it can be
+Provided that these wheels have been published to the public PyPI, they can be
 installed with:
 
 ```
@@ -22,7 +22,7 @@ python -m build
 ```
 
 This will create both the source distribution containing just the protofiles
-along with the wheel containing the protofiles and built Python interface
+along with the wheel containing the protofiles and build Python interface
 files.
 
 #### Manual Deployment
