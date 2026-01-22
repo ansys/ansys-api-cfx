@@ -21,4 +21,4 @@ repos:
     hooks:
       - id: add-license-headers
         files: '(src/|setup).*(\.py|\.proto)$'
-        args: [--start_year=2025]
+        args: [--start_year=2023]
