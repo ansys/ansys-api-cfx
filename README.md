@@ -26,14 +26,9 @@ interface files.
 
 #### Manual Deployment
 
-After building the packages, manually deploy them with:
-
-```
-pip install twine
-twine upload dist/*
-```
-
-Note that this is automatically done through CI/CD.
+PyAnsys repositories have been moving to using the
+trusted publisher approach when releasing to PyPI.
+Because of this, manual deployment is no longer possible.
 
 #### Automatic Deployment
 
