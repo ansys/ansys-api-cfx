@@ -19,32 +19,40 @@ jobs:
     name: Build package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+  
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
+
       - name: Install pre-commit
         run: |
-          python -m pip install pre-commit          
+          python -m pip install pre-commit  
+        
       - name: Run pre-commit
         if: always()
         run: |
           pre-commit run --all-files --show-diff-on-failure
+
       - name: Install build requirements
         run: |
           pip install -U pip
           pip install build
+
       - name: Build
         run: python -m build
+
       - name: Install
         run: pip install dist/*.whl
+
       - name: Test import
         run: |
           mkdir tmp
           cd tmp
           python -c "import ansys.api.cfx; print('Successfully imported ansys.api.cfx')"
           python -c "from ansys.api.cfx import __version__; print(__version__)"
+
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
@@ -53,29 +61,32 @@ jobs:
           retention-days: 7
 
   release:
-    name: "Release to private and public PyPI and to GitHub"
+    name: "Release to public PyPI and GitHub"
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     needs: [build]
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
+      contents: write
     steps:
-
-      - name: "Release to the private PyPI repository"
-        uses: ansys/actions/release-pypi-private@v6
+      - name: "Download the library artifacts from build-library step"
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
-          library-name: ${{ env.LIBRARY_NAME }}
-          twine-username: "__token__"
-          twine-token: ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}
+          name: ansys-api-cfx-artifacts
+          path: ansys-api-cfx-artifacts
 
-      #- name: "Release to the public PyPI repository"
-        #uses: ansys/actions/release-pypi-public@v6
-        #with:
-          #library-name: ${{ env.LIBRARY_NAME }}
-          #twine-username: "__token__"
-          #twine-token: ${{ secrets.PYPI_TOKEN }}
-
-      - name: "Release to GitHub"
-        uses: softprops/action-gh-release@v2
+      - name: Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           generate_release_notes: true
           files: |
             ./**/*.whl
+
+      - name: "Upload artifacts to PyPI using trusted publisher"
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+        with:
+          repository-url: "https://upload.pypi.org/legacy/"
+          print-hash: true
+          packages-dir: ansys-api-cfx-artifacts
+          skip-existing: false
