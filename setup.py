@@ -29,10 +29,20 @@ import setuptools
 
 from ansys.tools.protoc_helper import CMDCLASS_OVERRIDE
 
-# Get the long description from the README file
-HERE = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(HERE, "pypi_README.md"), encoding="utf-8") as f:
-    long_description = f.read()
+# The README file contains build and deployment instructions that we don't want to include
+# in the PyPI README. Set up the long_description manually.
+long_description = """### ansys-api-cfx gRPC Interface Package
+
+This Python package contains the auto-generated gRPC Python interface files for CFX.
+
+#### Installation
+
+Provided that these wheels have been published to the public PyPI, they can be installed with:
+
+```
+pip install ansys-api-cfx
+```
+"""
 
 product = "cfx"
 library = ""
