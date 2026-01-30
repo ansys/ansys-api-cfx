@@ -31,7 +31,7 @@ from ansys.tools.protoc_helper import CMDCLASS_OVERRIDE
 
 # Get the long description from the README file
 HERE = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(HERE, "README.md"), encoding="utf-8") as f:
+with open(os.path.join(HERE, "pypi_README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 product = "cfx"

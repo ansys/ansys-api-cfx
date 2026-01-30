@@ -26,9 +26,8 @@ interface files.
 
 #### Manual Deployment
 
-PyAnsys repositories have been moving to using the
-trusted publisher approach when releasing to PyPI.
-Because of this, manual deployment is no longer possible.
+PyAnsys repositories have been moving to using the trusted publisher approach when releasing to
+PyPI. Because of this, manual deployment is no longer possible.
 
 #### Automatic Deployment
 
