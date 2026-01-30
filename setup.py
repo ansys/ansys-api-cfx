@@ -47,6 +47,7 @@ pip install ansys-api-cfx
 product = "cfx"
 library = ""
 package_info = ["ansys", "api", product, library, "v0"]
+HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "src", "ansys", "api", product, library, "VERSION"), encoding="utf-8") as f:
     version = f.read().strip()
 
