@@ -1,0 +1,68 @@
+// Copyright (C) 2023 - 2026 ANSYS, Inc. and/or its affiliates.
+// SPDX-License-Identifier: MIT
+//
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+syntax = "proto3";
+
+package ansys.api.cfx.v1.health;
+
+option csharp_namespace = "Grpc.Health.V1";
+option go_package = "google.golang.org/grpc/health/grpc_health_v1";
+option java_multiple_files = true;
+option java_outer_classname = "HealthProto";
+option java_package = "io.grpc.health.v1";
+
+message HealthCheckRequest {
+  string service = 1;
+}
+
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0;
+    SERVING = 1;
+    NOT_SERVING = 2;
+    SERVICE_UNKNOWN = 3; // Used only by the Watch method.
+  }
+  ServingStatus status = 1;
+}
+
+service Health {
+  // If the requested service is unknown, the call will fail with status
+  // NOT_FOUND.
+  rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
+
+  // Performs a watch for the serving status of the requested service.
+  // The server will immediately send back a message indicating the current
+  // serving status.  It will then subsequently send a new message whenever
+  // the service's serving status changes.
+  //
+  // If the requested service is unknown when the call is received, the
+  // server will send a message setting the serving status to
+  // SERVICE_UNKNOWN but will *not* terminate the call.  If at some
+  // future point, the serving status of the service becomes known, the
+  // server will send a new message with the service's serving status.
+  //
+  // If the call terminates with status UNIMPLEMENTED, then clients
+  // should assume this method is not supported and should not retry the
+  // call.  If the call terminates with any other status (including OK),
+  // clients should retry the call with appropriate exponential backoff.
+  rpc Watch(HealthCheckRequest) returns (stream HealthCheckResponse);
+}
