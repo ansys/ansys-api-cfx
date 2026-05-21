@@ -33,7 +33,7 @@ service EngineEval {
 message ProcessCCLRequest {
   repeated string ccl = 1;
   bool wait = 2;
-  bool silent = 3; // if true, input won't be printed
+  bool silent = 3;  // if true, input won't be printed
 }
 
 message ProcessCCLResponse {

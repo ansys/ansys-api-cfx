@@ -34,15 +34,15 @@ message BeginStreamingRequest {
  * Event at end of the time step.
  */
 message TimestepEndedEvent {
-  sint64 index = 1; // Time step index.
-  double size = 2; // Time step size.
+  sint64 index = 1;  // Time step index.
+  double size = 2;   // Time step size.
 }
 
 /**
  * Event at end of the iteration.
  */
 message IterationEndedEvent {
-  sint64 index = 1; // Iteration index
+  sint64 index = 1;  // Iteration index
 }
 
 /**
@@ -61,21 +61,21 @@ message CalculationsEndedEvent {
  * Event at start of def read.
  */
 message AboutToReadDefEvent {
-  string deffilepath = 1; // Def file path.
+  string deffilepath = 1;  // Def file path.
 }
 
 /**
  * Event after def is read.
  */
 message DefReadEvent {
-  string deffilepath = 1; // Def file path.
+  string deffilepath = 1;  // Def file path.
 }
 
 /**
  * Event at res read.
  */
 message ResReadEvent {
-  string resfilepath = 1; // Res file path.
+  string resfilepath = 1;  // Res file path.
 }
 
 /**
@@ -88,8 +88,8 @@ message InitializedEvent {
  * Event during solution progress.
  */
 message ProgressEvent {
-  string message = 1; // Progress Message.
-  sint32 percentComplete = 2; // Percent completed.
+  string message = 1;          // Progress Message.
+  sint32 percentComplete = 2;  // Percent completed.
 }
 
 /*
