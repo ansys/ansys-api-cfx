@@ -22,7 +22,7 @@
 
 syntax = "proto3";
 
-package ansys.api.cfx.v1.events;
+package ansys.api.cfx.v1.Events;
 service Events {
   rpc BeginStreaming(BeginStreamingRequest) returns (stream BeginStreamingResponse) {}
 }
