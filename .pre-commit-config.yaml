@@ -1,24 +1,27 @@
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v14.0.1
+    rev: 34b241d706d24e4ccb69e38f9f0fa190b5f486ec  # frozen: v23.1.0
     hooks:
       - id: clang-format
         files: ^.+.proto$
         args: [-i, -style=file]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.1.0
+    rev: 57b21406f092110c18776e39b0bda50d37c945c8  # frozen: v2.4.3
     hooks:
       - id: codespell
+        args: ["-L", "Synopsys,synopsys"]
 
   - repo: https://github.com/yoheimuta/protolint
-    rev: v0.44.0
+    rev: 5875b24cd11661eeea9686fc1f1732fb6fa69580  # frozen: v0.57.0
     hooks:
       - id: protolint
 
   - repo: https://github.com/ansys/pre-commit-hooks
-    rev: v0.5.2
+    rev: 55c5b6a5439abd847613579c6924da750e8b78b2  # frozen: v0.8.0
     hooks:
       - id: add-license-headers
         files: '(src/|setup).*(\.py|\.proto)$'
-        args: [--start_year=2023]
+        args:
+          - --start_year=2023
+          - --custom_license=Apache-2.0
