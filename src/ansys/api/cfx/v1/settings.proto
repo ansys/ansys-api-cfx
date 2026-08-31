@@ -92,8 +92,6 @@ message StaticInfo {
   repeated StaticInfoMap children = 2;
   // Commands available for current object.
   repeated StaticInfoMap commands = 3;
-  // Queries available for current object.
-  repeated StaticInfoMap queries = 11;
   // Arguments associated with the current command/query object.
   repeated StaticInfoMap arguments = 4;
   // Class template for named object instance.
@@ -109,6 +107,8 @@ message StaticInfo {
   int32 list_size = 9;
   // Boolean indicating if an instance can be created by the user for the current named-object.
   bool user_creatable = 10;
+  // Queries available for current object.
+  repeated StaticInfoMap queries = 11;
   // File purpose string for the current command object.
   map<string, Value> attrs = 12;
 }

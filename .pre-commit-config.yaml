@@ -10,6 +10,7 @@ repos:
     rev: 57b21406f092110c18776e39b0bda50d37c945c8  # frozen: v2.4.3
     hooks:
       - id: codespell
+        args: ["-L", "Synopsys,synopsys"]
 
   - repo: https://github.com/yoheimuta/protolint
     rev: 5875b24cd11661eeea9686fc1f1732fb6fa69580  # frozen: v0.57.0
