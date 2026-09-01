@@ -61,7 +61,7 @@ if __name__ == "__main__":
         description=description,
         long_description=long_description,
         long_description_content_type="text/markdown",
-        url=f"https://github.com/ansys-internal/{package_name}",
+        url=f"https://github.com/ansys/{package_name}",
         license="Apache-2.0",
         python_requires=">=3.9,<4.0",
         install_requires=["grpcio~=1.30", "protobuf>=3.19,<8"],
