@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: e2b496dc2bd8340c2524cb9a2d2a943cde1bb6df  # frozen: v23.1.1
+    rev: a9a8a861f30ed207ead7d5a3b7e8032283ba5da7  # frozen: v23.1.2
     hooks:
       - id: clang-format
         files: ^.+.proto$
@@ -13,7 +13,7 @@ repos:
         args: ["-L", "Synopsys,synopsys"]
 
   - repo: https://github.com/yoheimuta/protolint
-    rev: 5875b24cd11661eeea9686fc1f1732fb6fa69580  # frozen: v0.57.0
+    rev: c5433e2d6826441fc6150e7eb0ff5ad568100ad5  # frozen: v0.58.0
     hooks:
       - id: protolint
 
